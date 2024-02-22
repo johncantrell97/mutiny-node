@@ -75,7 +75,7 @@ use crate::{
 };
 use crate::{nostr::NostrManager, utils::sleep};
 use ::nostr::nips::nip57;
-use ::nostr::prelude::ZapRequestData;
+use ::nostr::prelude::{Method, ZapRequestData};
 use ::nostr::{Event, EventId, JsonUtil, Kind, Metadata};
 use async_lock::RwLock;
 use bdk_chain::ConfirmationTime;
@@ -1649,6 +1649,7 @@ impl<S: MutinyStorage> MutinyWallet<S> {
                                 period: BudgetPeriod::Month,
                             }),
                             NwcProfileTag::Subscription,
+                            vec![Method::PayInvoice], // subscription only needs pay invoice
                         )
                         .await?
                         .nwc_uri
@@ -1658,6 +1659,7 @@ impl<S: MutinyStorage> MutinyWallet<S> {
                             ProfileType::Reserved(ReservedProfile::MutinySubscription),
                             SpendingConditions::RequireApproval,
                             NwcProfileTag::Subscription,
+                            vec![Method::PayInvoice], // subscription only needs pay invoice
                         )
                         .await?
                         .nwc_uri

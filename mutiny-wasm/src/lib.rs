@@ -47,6 +47,7 @@ use mutiny_core::{
     nodemanager::{create_lsp_config, NodeManager},
 };
 use mutiny_core::{logging::MutinyLogger, nostr::ProfileType};
+use nostr::prelude::Method;
 use nostr::{Keys, ToBech32};
 use std::collections::HashMap;
 use std::str::FromStr;
@@ -1394,6 +1395,7 @@ impl MutinyWallet {
                 ProfileType::Normal { name },
                 SpendingConditions::default(),
                 NwcProfileTag::General,
+                vec![Method::PayInvoice], // todo make configurable
             )
             .await?
             .into())
@@ -1419,7 +1421,12 @@ impl MutinyWallet {
         Ok(self
             .inner
             .nostr
-            .create_new_nwc_profile(ProfileType::Normal { name }, sp, NwcProfileTag::General)
+            .create_new_nwc_profile(
+                ProfileType::Normal { name },
+                sp,
+                NwcProfileTag::General,
+                vec![Method::PayInvoice], // todo make configurable
+            )
             .await?
             .into())
     }
