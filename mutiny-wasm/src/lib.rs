@@ -1395,7 +1395,7 @@ impl MutinyWallet {
                 ProfileType::Normal { name },
                 SpendingConditions::default(),
                 NwcProfileTag::General,
-                vec![Method::PayInvoice], // todo make configurable
+                vec![Method::PayInvoice, Method::MakeInvoice], // todo make configurable
             )
             .await?
             .into())
@@ -1425,7 +1425,7 @@ impl MutinyWallet {
                 ProfileType::Normal { name },
                 sp,
                 NwcProfileTag::General,
-                vec![Method::PayInvoice], // todo make configurable
+                vec![Method::PayInvoice, Method::MakeInvoice], // todo make configurable
             )
             .await?
             .into())

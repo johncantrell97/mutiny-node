@@ -1240,7 +1240,7 @@ impl<S: MutinyStorage> NodeManager<S> {
 
         // sync bdk wallet
         match self.wallet.sync().await {
-            Ok(()) => Ok(log_info!(self.logger, "We are synced!")),
+            Ok(()) => Ok(log_info!(self.logger, "We are synced!!!!")),
             Err(e) => {
                 log_error!(self.logger, "Failed to sync on-chain wallet: {e}");
                 Err(e)

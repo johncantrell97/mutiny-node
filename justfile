@@ -1,17 +1,17 @@
 pack:
-    wasm-pack build ./mutiny-wasm --dev --weak-refs --target web --scope mutinywallet
+    wasm-pack build ./mutiny-wasm --dev --weak-refs --target web --scope johncantrell97
 
 link:
-    wasm-pack build ./mutiny-wasm --dev --weak-refs --target web --scope mutinywallet && cd mutiny-wasm/pkg && pnpm link --global
+    wasm-pack build ./mutiny-wasm --dev --weak-refs --target web --scope johncantrell97 && cd mutiny-wasm/pkg && pnpm link --global
 
 login:
-    wasm-pack login --scope=@mutinywallet
+    wasm-pack login --scope=@johncantrell97
 
 dev: 
-    wasm-pack build ./mutiny-wasm --weak-refs --target web --scope mutinywallet -- --features console_error_panic_hook
+    wasm-pack build ./mutiny-wasm --weak-refs --target web --scope johncantrell97 -- --features console_error_panic_hook
 
 release:
-    wasm-pack build ./mutiny-wasm --release --weak-refs --target web --scope mutinywallet
+    wasm-pack build ./mutiny-wasm --release --weak-refs --target web --scope johncantrell97
 
 publish:
     wasm-pack publish --access public -t web

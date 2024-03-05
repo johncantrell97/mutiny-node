@@ -15,7 +15,7 @@ use core::fmt;
 use hex_conservative::DisplayHex;
 use itertools::Itertools;
 use lightning::util::logger::Logger;
-use lightning::{log_error, log_warn};
+use lightning::{log_error, log_warn, log_debug};
 use lightning_invoice::{Bolt11Invoice, Bolt11InvoiceDescription};
 use nostr::nips::nip04::{decrypt, encrypt};
 use nostr::nips::nip47::*;
@@ -203,7 +203,7 @@ impl Profile {
     pub fn available_commands(&self) -> &[Method] {
         // if None this is an old profile and we should only allow pay invoice
         match self.commands.as_ref() {
-            None => &[Method::PayInvoice],
+            None => &[Method::PayInvoice, Method::MakeInvoice],
             Some(cmds) => cmds,
         }
     }
@@ -406,6 +406,7 @@ impl NostrWalletConnect {
         node: &impl InvoiceHandler,
         nostr_manager: &NostrManager<S>,
     ) -> anyhow::Result<Option<Event>> {
+        log_debug!(nostr_manager.logger, "Handling NWC request: {:?}", event);
         let client_pubkey = self.client_key.public_key();
         let mut needs_save = false;
         let mut needs_delete = false;
@@ -414,6 +415,7 @@ impl NostrWalletConnect {
             && event.kind == Kind::WalletConnectRequest
             && event.pubkey == client_pubkey
         {
+            log_debug!(nostr_manager.logger,"profile is active!");
             let server_key = self.server_key.secret_key()?;
 
             let decrypted = decrypt(server_key, &client_pubkey, &event.content)?;
@@ -434,6 +436,10 @@ impl NostrWalletConnect {
                         .map(Some);
                 }
             };
+
+            log_debug!(nostr_manager.logger,"got decrypted request: {:?}", req);
+
+            log_debug!(nostr_manager.logger,"available commands: {:?}", self.profile.available_commands());
 
             // only respond to commands that are allowed by the profile
             if !self.profile.available_commands().contains(&req.method) {

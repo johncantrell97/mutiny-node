@@ -1,0 +1,10 @@
+{
+    "rust-analyzer.linkedProjects": [
+        "./mutiny-core/Cargo.toml",
+        "./mutiny-core/Cargo.toml"
+    ],
+    "rust-analyzer.cargo.extraEnv": {
+        "AR": "/opt/homebrew/opt/llvm/bin/llvm-ar",
+        "CC": "/opt/homebrew/opt/llvm/bin/clang"
+    }
+}
